@@ -19,8 +19,8 @@ This is the backend of the **BuyNest** e-commerce application, developed using *
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/buynest-backend.git
-cd buynest-backend
+git clone https://github.com/krishnam98/buynest_backend.git
+cd buynest_backend
 ```
 
 2️⃣ 📦 Configure MySQL Database
