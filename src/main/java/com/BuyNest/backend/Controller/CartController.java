@@ -23,6 +23,10 @@ public class CartController {
     @PostMapping("/add/{productId}")
     public void addToCart(@PathVariable  Long productId, Principal principal){
         cartService.addToCart(productId,principal.getName());
+    }
 
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<?> deleteCartItem(@PathVariable Long productId, Principal principal){
+       return cartService.deleteItem(productId,principal);
     }
 }

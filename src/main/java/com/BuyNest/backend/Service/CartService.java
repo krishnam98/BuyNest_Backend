@@ -7,9 +7,11 @@ import com.BuyNest.backend.Repository.CartRepo;
 import com.BuyNest.backend.Repository.ProductRepo;
 import com.BuyNest.backend.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,5 +93,47 @@ public class CartService {
 
         return ResponseEntity.ok(null);
 
+    }
+
+    public ResponseEntity<?> deleteItem(Long productId, Principal principal) {
+        Users user= userRepo.findByUsername(principal.getName());
+        Cart cart= cartRepo.findByUser(user).orElse(null);
+        if(cart!=null){
+            Product product= productRepo.findById(productId).orElse(null);
+
+            if(product!=null){
+                 Optional <CartItem> cartitem= cart.getCartItems().stream()
+                         .filter(item-> item.getProducts().getId().equals(productId)).findFirst();
+
+                 if(cartitem.isPresent()){
+                     CartItem item= cartitem.get();
+                     int newQuantity=item.getQuantity()-1;
+                     if(newQuantity==0){
+                         Long itemId= item.getId();
+                         int index= cart.getCartItems().indexOf(item);
+                         cart.getCartItems().remove(index);
+                         cartRepo.save(cart);
+                         return  new ResponseEntity<>("cartItem deleted", HttpStatus.OK);
+                     }
+                     else{
+                         item.setQuantity(newQuantity);
+                         cartItemRepo.save(item);
+                         cartRepo.save(cart);
+                         return  new ResponseEntity<>("quantity decreased", HttpStatus.OK);
+                     }
+
+
+                 }
+                 else{
+                     return  new ResponseEntity<>("cartItem Not found", HttpStatus.NOT_FOUND);
+                 }
+            }
+            else{
+                return  new ResponseEntity<>("product Not found", HttpStatus.NOT_FOUND);
+            }
+        }
+        else{
+            return  new ResponseEntity<>("cart Not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
