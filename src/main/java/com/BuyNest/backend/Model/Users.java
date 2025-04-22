@@ -29,6 +29,11 @@ public class Users {
     @JsonIgnore
     private List<Product> products=new ArrayList<>();
 
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Orders> orders;
+
+//    Getters & Setters
+
     public List<Product> getProducts() {
         return products;
     }
