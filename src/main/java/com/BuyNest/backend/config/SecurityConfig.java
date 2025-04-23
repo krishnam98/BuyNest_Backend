@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**")
                         .permitAll()
-                        .requestMatchers("/api/addProduct","/api/updateProduct/**","/api/deleteProduct/**","/api/getSellerProducts").hasAuthority("SELLER")
+                        .requestMatchers("/api/addProduct","/api/updateProduct/**","/api/deleteProduct/**","/api/getSellerProducts","/order/getSellerOrders").hasAuthority("SELLER")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->

@@ -8,7 +8,6 @@ import com.BuyNest.backend.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,7 +15,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -116,5 +114,15 @@ public class OrderService {
            return  new ResponseEntity<>("null",HttpStatus.NOT_FOUND);
        }
 
+    }
+
+
+    public ResponseEntity<?> getSellerOrders(Principal principal) {
+        Users user= userRepo.findByUsername(principal.getName());
+        List<OrderItem> orderItemList= orderItemRepo.findBySeller(user);
+        if(orderItemList==null){
+            return new ResponseEntity<>("No Orders Yet!",HttpStatus.OK);
+        }
+        return new ResponseEntity<>(orderItemList,HttpStatus.OK);
     }
 }

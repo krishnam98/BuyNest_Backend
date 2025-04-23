@@ -17,9 +17,15 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/getOrders")
-        public ResponseEntity<?> getOrders(Principal principal){
+    public ResponseEntity<?> getOrders(Principal principal){
            return orderService.getOrders(principal);
-        }
+    }
+
+    @GetMapping("/getSellerOrders")
+    public ResponseEntity<?> getSellerOrders(Principal principal){
+        return orderService.getSellerOrders(principal);
+    }
+
 
 
     @PostMapping("/createOrder")
