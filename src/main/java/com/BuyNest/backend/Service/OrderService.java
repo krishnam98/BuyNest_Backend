@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -61,15 +62,55 @@ public class OrderService {
             return new ResponseEntity<>("No cart present!", HttpStatus.BAD_REQUEST);
         }
 
+    }
 
+    public ProductDTO convertToDTO(Product product){
+        ProductDTO dto= new ProductDTO();
+        dto.setName(product.getName());
+        dto.setId(product.getId());
+        dto.setDescription(product.getDescription());
+        dto.setBrand(product.getBrand());
+        dto.setPrice(product.getPrice());
+        dto.setCategory(product.getCategory());
+        dto.setReleaseDate(product.getReleaseDate());
+        dto.setAvailable(product.getAvailable());
+        dto.setQuantity(product.getQuantity());
+        dto.setRating(product.getRating());
+        dto.setImageName(product.getImageName());
+        dto.setImageType(product.getImageType());
+        dto.setImageData(product.getImageData());
 
+        // Set seller's name safely
+        if (product.getSeller() != null) {
+            dto.setSellerName(product.getSeller().getUsername());
+        }
+        return dto;
+    }
+
+    public OrderDTO_Buyer createOrderDto(Orders order){
+        OrderDTO_Buyer dto= new OrderDTO_Buyer();
+        dto.setAddress(order.getAddress());
+        dto.setPrice(order.getPrice());
+        dto.setDateOfCreation(order.getDateOfCreation());
+        order.getOrderItems().stream().forEach( item->{
+                    OrderItemDTO_Buyer orderitemDto_buyer= new OrderItemDTO_Buyer();
+                    orderitemDto_buyer.setQuantity(item.getQuantity());
+                    orderitemDto_buyer.setProductDTO(convertToDTO(item.getProduct()));
+                    dto.getOrderItemDTO_buyerList().add(orderitemDto_buyer);
+                });
+
+        return dto;
 
     }
     public ResponseEntity<?> getOrders(Principal principal){
         Users user = userRepo.findByUsername(principal.getName());
         List <Orders> orders=orderRepo.findByBuyer(user);
        if(orders!=null){
-           return new ResponseEntity<>(orders,HttpStatus.OK);
+           List <OrderDTO_Buyer> response= new ArrayList<>();
+           orders.stream().forEach(item->{
+               response.add(createOrderDto(item));
+           });
+           return new ResponseEntity<>(response,HttpStatus.OK);
        }
        else{
            return  new ResponseEntity<>("null",HttpStatus.NOT_FOUND);
