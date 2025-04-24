@@ -116,6 +116,16 @@ public class OrderService {
 
     }
 
+    public OrderItemDTO_Seller createDTOForSeller(OrderItem orderItem){
+        OrderItemDTO_Seller dto_seller= new OrderItemDTO_Seller();
+        dto_seller.setProductDTO(convertToDTO(orderItem.getProduct()));
+        dto_seller.setDate(orderItem.getOrders().getDateOfCreation());
+        dto_seller.setQuantity(orderItem.getQuantity());
+        dto_seller.setAddress(orderItem.getOrders().getAddress());
+        dto_seller.setOrderID(orderItem.getOrders().getId());
+        return dto_seller;
+    }
+
 
     public ResponseEntity<?> getSellerOrders(Principal principal) {
         Users user= userRepo.findByUsername(principal.getName());
@@ -123,6 +133,11 @@ public class OrderService {
         if(orderItemList==null){
             return new ResponseEntity<>("No Orders Yet!",HttpStatus.OK);
         }
-        return new ResponseEntity<>(orderItemList,HttpStatus.OK);
+
+        List<OrderItemDTO_Seller> response= new ArrayList<>();
+        orderItemList.stream().forEach(item->{
+            response.add(createDTOForSeller(item));
+        });
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
