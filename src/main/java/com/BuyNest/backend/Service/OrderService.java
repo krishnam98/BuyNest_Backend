@@ -90,6 +90,7 @@ public class OrderService {
         dto.setAddress(order.getAddress());
         dto.setPrice(order.getPrice());
         dto.setDateOfCreation(order.getDateOfCreation());
+        dto.setOrderID(order.getId());
         order.getOrderItems().stream().forEach( item->{
                     OrderItemDTO_Buyer orderitemDto_buyer= new OrderItemDTO_Buyer();
                     orderitemDto_buyer.setQuantity(item.getQuantity());

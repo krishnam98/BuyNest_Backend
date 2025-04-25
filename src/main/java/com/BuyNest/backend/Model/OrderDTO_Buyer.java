@@ -13,6 +13,7 @@ import java.util.List;
 @Component
 @Data
 public class OrderDTO_Buyer {
+    private Long orderID;
     private Address address;
     private BigDecimal price;
     private Date dateOfCreation;
