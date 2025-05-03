@@ -53,6 +53,7 @@ public class OrderService {
             orders.setAddress(address);
             orders.setDateOfCreation(new Date());
             orderRepo.save(orders);
+            cartRepo.delete(cart);
             return new ResponseEntity<>("Order Created successfully",HttpStatus.CREATED);
 
         }else{

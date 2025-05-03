@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,7 @@ public class CartService {
         Users user = userRepo.findByUsername(username);
         Cart cart= cartRepo.findByUser(user).orElseGet(()->{
             Cart newCart= new Cart();
+            newCart.setCartItems(new ArrayList<>());
             newCart.setUser(user);
             return cartRepo.save(newCart);
         });
@@ -91,7 +93,7 @@ public class CartService {
             return  ResponseEntity.ok(response);
         }
 
-        return ResponseEntity.ok(null);
+        return new ResponseEntity("Cart empty",HttpStatus.NO_CONTENT);
 
     }
 
