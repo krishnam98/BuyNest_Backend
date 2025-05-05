@@ -10,8 +10,8 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 
-		System.setProperty("Db_username", System.getenv("Db_username"));
-		System.setProperty("Db_password", System.getenv("Db_password"));
+		System.setProperty("Db_username", System.getenv("Db_Username"));
+		System.setProperty("Db_password", System.getenv("Db_Password"));
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
