@@ -83,6 +83,7 @@ public class CartService {
                 itemDTO.setImageName(item.getProducts().getImageName());
                 itemDTO.setImageType(item.getProducts().getImageType());
                 itemDTO.setImageData(item.getProducts().getImageData());
+                itemDTO.setDeleted(item.getProducts().isDeleted());
                 if (item.getProducts().getSeller()!= null) {
                     itemDTO.setSellerName(item.getProducts().getSeller().getUsername()); // Or getFullName(), whatever you have
                 }

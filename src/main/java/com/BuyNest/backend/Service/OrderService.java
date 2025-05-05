@@ -78,6 +78,7 @@ public class OrderService {
         dto.setImageName(product.getImageName());
         dto.setImageType(product.getImageType());
         dto.setImageData(product.getImageData());
+        dto.setDeleted(product.isDeleted());
 
         // Set seller's name safely
         if (product.getSeller() != null) {
@@ -93,10 +94,13 @@ public class OrderService {
         dto.setDateOfCreation(order.getDateOfCreation());
         dto.setOrderID(order.getId());
         order.getOrderItems().stream().forEach( item->{
-                    OrderItemDTO_Buyer orderitemDto_buyer= new OrderItemDTO_Buyer();
-                    orderitemDto_buyer.setQuantity(item.getQuantity());
-                    orderitemDto_buyer.setProductDTO(convertToDTO(item.getProduct()));
-                    dto.getOrderItemDTO_buyerList().add(orderitemDto_buyer);
+                   if(!item.getProduct().isDeleted()){
+                       OrderItemDTO_Buyer orderitemDto_buyer= new OrderItemDTO_Buyer();
+                       orderitemDto_buyer.setQuantity(item.getQuantity());
+                       orderitemDto_buyer.setProductDTO(convertToDTO(item.getProduct()));
+                       dto.getOrderItemDTO_buyerList().add(orderitemDto_buyer);
+                   }
+
                 });
 
         return dto;

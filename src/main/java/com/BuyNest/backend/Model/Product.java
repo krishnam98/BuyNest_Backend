@@ -28,6 +28,7 @@ public class Product {
     private Boolean available;
     private int quantity;
     private int rating;
+    private boolean deleted;
 
     private String imageName;
     private String imageType;

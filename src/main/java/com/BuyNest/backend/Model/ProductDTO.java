@@ -25,6 +25,15 @@ public class ProductDTO {
     private Boolean available;
     private int quantity;
     private int rating;
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     private String imageName;
     private String imageType;

@@ -111,12 +111,12 @@ public class ProductController {
 
     @PutMapping("/updateProduct/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestPart Product product,
-                                                 @RequestPart MultipartFile imageFile ){
+                                                 @RequestPart MultipartFile imageFile, Principal principal ){
 
         ProductDTO product1=null;
         try {
 
-             product1=service.updateProduct(product,imageFile);
+             product1=service.updateProduct(product,imageFile,principal);
 
         }
         catch(Exception e){

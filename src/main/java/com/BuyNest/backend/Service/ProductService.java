@@ -45,6 +45,7 @@ public class ProductService {
             dto.setImageName(product.getImageName());
             dto.setImageType(product.getImageType());
             dto.setImageData(product.getImageData());
+            dto.setDeleted(product.isDeleted());
 
             // Set seller's name safely
             if (product.getSeller() != null) {
@@ -72,6 +73,7 @@ public class ProductService {
         dto.setImageName(product.getImageName());
         dto.setImageType(product.getImageType());
         dto.setImageData(product.getImageData());
+        dto.setDeleted(product.isDeleted());
 
         // Set seller's name safely
         if (product.getSeller() != null) {
@@ -88,6 +90,7 @@ public class ProductService {
         product.setImageName(imageFile.getOriginalFilename());
         product.setImageType(imageFile.getContentType());
         product.setImageData(imageFile.getBytes());
+        product.setDeleted(false);
 
         Users u = userRepo.findByUsername(principal.getName());
 
@@ -110,16 +113,24 @@ public class ProductService {
         return null;
     }
 
-    public ProductDTO updateProduct(Product product, MultipartFile imageFile) throws IOException {
+    public ProductDTO updateProduct(Product product, MultipartFile imageFile, Principal principal) throws IOException {
         product.setImageName(imageFile.getOriginalFilename());
         product.setImageType(imageFile.getContentType());
         product.setImageData(imageFile.getBytes());
+        Users user = userRepo.findByUsername(principal.getName());
+        product.setSeller(user);
         System.out.println(product);
         return convertToDTO(repo.save(product));
     }
 
     public void deleteProduct(Long id) {
-        repo.deleteById(id);
+        Product product=repo.findById(id).orElse(null);
+        if(product!=null){
+            product.setDeleted(true);
+            repo.save(product);
+        }
+
+
     }
 
     public List<ProductDTO> getSearchedProduct(String keyword) {

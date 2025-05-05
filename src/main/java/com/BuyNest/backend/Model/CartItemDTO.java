@@ -15,6 +15,15 @@ public class CartItemDTO {
     private Date releaseDate;
     private Boolean available;
     private int rating;
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     private String imageName;
     private String imageType;
