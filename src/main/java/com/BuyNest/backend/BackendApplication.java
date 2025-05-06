@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackendApplication {
 
 	public static void main(String[] args) {
-
-		System.setProperty("Db_username", System.getenv("Db_Username"));
-		System.setProperty("Db_password", System.getenv("Db_Password"));
+//
+//		System.setProperty("Db_username", System.getenv("Db_Username"));
+//		System.setProperty("Db_password", System.getenv("Db_Password"));
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
